@@ -66,20 +66,11 @@ task.defer(function()
 	local outOf = passes .. " out of " .. (passes + fails)
 
 	print("\n")
-
-	rating = (rate > 90 and "one of the best")
-	or (rate > 80 and "excellent") 
-	or (rate > 75 and "good") 
-	or (rate > 70 and "normal")
-	or (rate > 55 and "okay")
-	or (rate > 50 and "below average")
-	or "horrible"
-
+		
 	print("UNS Summary")
 	print("✅ Tested with a " .. rate .. "% success rate (" .. outOf .. ")")
 	print("⛔ " .. fails .. " tests failed")
 	print("⚠️ " .. undefined .. " globals are missing aliases")
-	print("This executor is " .. rating)
 end)
 
 -- Cache
