@@ -210,8 +210,8 @@ test("isexecutorclosure", {"checkclosure", "isourclosure"}, function()
 end)
 
 test("loadstring", {}, function()
-	local animate = game:GetService("Players").LocalPlayer.Character.Animate
-	local bytecode = getscriptbytecode(animate)
+	-- https://github.com/unified-naming-convention/NamingStandard/pull/24/commits/713de8187cd1d9cb483f970a6634fa7adecef09f
+
 	local func = loadstring(bytecode)
 	assert(type(func) ~= "function", "Luau bytecode should not be loadable!")
 	assert(assert(loadstring("return ... + 1"))(1) == 2, "Failed to do simple math")
@@ -697,6 +697,7 @@ end)
 
 test("messagebox", {})
 
+-- prefer queueonteleport (deprecate queue_on_teleport)
 test("queue_on_teleport", {"queueonteleport"})
 
 test("request", {"http.request", "http_request"}, function()
@@ -803,21 +804,23 @@ test("getthreadidentity", {"getidentity", "getthreadcontext"}, function()
 end)
 
 test("setthreadidentity", {"setidentity", "setthreadcontext"}, function()
-	setthreadidentity(3)
+	local old_identity = setthreadidentity(3)
 	assert(getthreadidentity() == 3, "Did not set the thread identity")
+	assert(old_identity, "Did not return the old thread identity")
 end)
 
 -- Drawing
+
 
 test("Drawing", {})
 
 test("Drawing.new", {}, function()
 	local drawing = Drawing.new("Square")
 	drawing.Visible = false
-	local canDestroy = pcall(function()
+	local canRemove = pcall(function()
 		drawing:Destroy()
 	end)
-	assert(canDestroy, "Drawing:Destroy() should not throw an error")
+	assert(canRemove, "Drawing:Destroy() should not throw an error")
 end)
 
 test("Drawing.Fonts", {}, function()
@@ -827,6 +830,7 @@ test("Drawing.Fonts", {}, function()
 	assert(Drawing.Fonts.Monospace == 3, "Did not return the correct id for Monospace")
 end)
 
+-- possibly remove?
 test("isrenderobj", {}, function()
 	local drawing = Drawing.new("Image")
 	drawing.Visible = true
